@@ -1,0 +1,48 @@
+[
+  {
+    "id": 1,
+    "name": "товар 1",
+    "price": 25,
+    "description": "ч",
+    "categories": [
+      "категория 1"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "товар 2",
+    "price": 25,
+    "description": "л",
+    "categories": [
+      "категория 1"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "товар 3",
+    "price": 25,
+    "description": "в4",
+    "categories": [
+      "категория 1",
+      "категория 2"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "товар 5",
+    "price": 35,
+    "description": "у",
+    "categories": [
+      "категория 1"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "товар 5",
+    "price": 23,
+    "description": "в",
+    "categories": [
+      "категория 2"
+    ]
+  }
+]

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог товаров</title>
+    <style>
+        .product-card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 16px;
+            margin: 16px;
+            width: 200px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .product-card h3 {
+            margin: 0 0 8px;
+        }
+        .product-card p {
+            margin: 0 0 8px;
+        }
+        .category-filter {
+            margin-bottom: 24px;
+        }
+        .category-filter label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Каталог товаров</h1>
+
+    <!-- Фильтр по категориям -->
+    <div class="category-filter">
+        <label for="category-select">Выберите категорию:</label>
+        <select id="category-select">
+            <option value="">Все категории</option>
+        </select>
+    </div>
+
+    <!-- Контейнер для товаров -->
+    <div id="products-container"></div>
+
+    <script>
+        // Функция для загрузки данных из JSON-файла
+        async function loadProducts() {
+            const response = await fetch('/products.json');
+            const products = await response.json();
+            const categorySelect = document.getElementById('category-select');
+            const productsContainer = document.getElementById('products-container');
+
+            // Собираем все уникальные категории
+            const categories = new Set();
+            products.forEach(product => {
+                product.categories.forEach(category => categories.add(category));
+            });
+
+            // Заполняем выпадающий список категориями
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categorySelect.appendChild(option);
+            });
+
+            // Функция для отображения товаров
+            function displayProducts(filterCategory = '') {
+                productsContainer.innerHTML = ''; // Очищаем контейнер
+
+                products.forEach(product => {
+                    // Если категория не выбрана или товар принадлежит выбранной категории
+                    if (!filterCategory || product.categories.includes(filterCategory)) {
+                        const card = document.createElement('div');
+                        card.className = 'product-card';
+
+                        const name = document.createElement('h3');
+                        name.textContent = product.name;
+
+                        const price = document.createElement('p');
+                        price.textContent = `Цена: ${product.price} руб.`;
+
+                        const description = document.createElement('p');
+                        description.textContent = product.description;
+
+                        // Добавляем отображение категорий
+                        const categories = document.createElement('p');
+                        categories.textContent = `Категории: ${product.categories.join(', ')}`;
+
+                        card.appendChild(name);
+                        card.appendChild(price);
+                        card.appendChild(description);
+                        card.appendChild(categories); // Добавляем категории в карточку
+
+                        productsContainer.appendChild(card);
+                    }
+                });
+            }
+
+            // Отображаем все товары при загрузке страницы
+            displayProducts();
+
+            // Обработчик изменения выбранной категории
+            categorySelect.addEventListener('change', (event) => {
+                const selectedCategory = event.target.value;
+                displayProducts(selectedCategory);
+            });
+        }
+
+        // Загружаем товары при загрузке страницы
+        loadProducts();
+    </script>
+</body>
+</html>
