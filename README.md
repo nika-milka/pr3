@@ -2,7 +2,7 @@
 <h2>1. Клонируйте репозиторий на свой локальный компьютер:</h2>
    <h3>git clone  https://github.com/nika-milka/pr3.git </h3>
 <h2> 2. Перейдите в директорию проекта:</h2>
-    <h3> cd yourrepository </h3>
+    <h3> cd pr3 </h3>
 <h2> 3. Установите все зависимости:</h2>
    <h3>npm install </h3>
 
