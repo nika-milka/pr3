@@ -209,7 +209,7 @@
         }
 
         // WebSocket клиент для чата
-        const ws = new WebSocket('ws://localhost:8080');
+        const ws = new WebSocket('ws://localhost:8081');
         ws.onmessage = function(event) {
             const message = JSON.parse(event.data);
             const chatBody = document.getElementById('chat-body');

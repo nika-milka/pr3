@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
+const WebSocket = require('ws'); 
 
 const app = express();
 const port = 8080;
