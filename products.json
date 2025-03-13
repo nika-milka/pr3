@@ -20,27 +20,27 @@
   {
     "id": 3,
     "name": "товар 3",
-    "price": 25,
-    "description": "в4",
+    "price": 6561,
+    "description": "отрипмп",
+    "categories": [
+      "категория 2"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "товар 4",
+    "price": 25425,
+    "description": "ипатво",
     "categories": [
       "категория 1",
       "категория 2"
     ]
   },
   {
-    "id": 4,
-    "name": "товар 5",
-    "price": 35,
-    "description": "у",
-    "categories": [
-      "категория 1"
-    ]
-  },
-  {
     "id": 5,
     "name": "товар 5",
-    "price": 23,
-    "description": "в",
+    "price": 857866,
+    "description": "фваыпк",
     "categories": [
       "категория 2"
     ]

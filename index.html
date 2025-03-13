@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Каталог товаров</title>
     <style>
+        /* Стили для каталога товаров */
         .product-card {
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -26,6 +27,41 @@
         .category-filter label {
             font-weight: bold;
         }
+
+        /* Стили для чата */
+        .chat-box {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 300px;
+            border: 1px solid #ccc;
+            background: white;
+            box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .chat-header {
+            background: #f1f1f1;
+            padding: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .chat-body {
+            height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        .chat-footer {
+            padding: 10px;
+            display: flex;
+        }
+        .chat-footer input {
+            flex: 1;
+            padding: 5px;
+            margin-right: 5px;
+        }
+        .chat-footer button {
+            padding: 5px 10px;
+        }
     </style>
 </head>
 <body>
@@ -41,6 +77,16 @@
 
     <!-- Контейнер для товаров -->
     <div id="products-container"></div>
+
+    <!-- Чат с поддержкой -->
+    <div class="chat-box">
+        <div class="chat-header">Чат с поддержкой</div>
+        <div class="chat-body" id="chat-body"></div>
+        <div class="chat-footer">
+            <input type="text" id="chat-input" placeholder="Введите сообщение...">
+            <button onclick="sendMessage()">Отправить</button>
+        </div>
+    </div>
 
     <script>
         // Функция для загрузки данных из JSON-файла
@@ -69,7 +115,6 @@
                 productsContainer.innerHTML = ''; // Очищаем контейнер
 
                 products.forEach(product => {
-                    // Если категория не выбрана или товар принадлежит выбранной категории
                     if (!filterCategory || product.categories.includes(filterCategory)) {
                         const card = document.createElement('div');
                         card.className = 'product-card';
@@ -83,14 +128,13 @@
                         const description = document.createElement('p');
                         description.textContent = product.description;
 
-                        // Добавляем отображение категорий
                         const categories = document.createElement('p');
                         categories.textContent = `Категории: ${product.categories.join(', ')}`;
 
                         card.appendChild(name);
                         card.appendChild(price);
                         card.appendChild(description);
-                        card.appendChild(categories); // Добавляем категории в карточку
+                        card.appendChild(categories);
 
                         productsContainer.appendChild(card);
                     }
@@ -106,6 +150,31 @@
                 displayProducts(selectedCategory);
             });
         }
+
+        // WebSocket клиент для чата
+        const ws = new WebSocket('ws://localhost:8081');
+        ws.onmessage = function(event) {
+            const message = JSON.parse(event.data);
+            const chatBody = document.getElementById('chat-body');
+            const messageElement = document.createElement('div');
+            messageElement.textContent = `${message.from}: ${message.text}`;
+            chatBody.appendChild(messageElement);
+            chatBody.scrollTop = chatBody.scrollHeight; // Прокрутка вниз
+        };
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value;
+            if (text) {
+                ws.send(JSON.stringify({ type: 'message', text: text }));
+                input.value = '';
+            }
+        }
+
+        // Регистрация пользователя (например, как клиент)
+        ws.onopen = function() {
+            ws.send(JSON.stringify({ type: 'register', role: 'client', username: 'Пользователь' }));
+        };
 
         // Загружаем товары при загрузке страницы
         loadProducts();
